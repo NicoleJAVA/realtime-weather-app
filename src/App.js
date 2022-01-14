@@ -22,8 +22,9 @@ const WeatherCard = styled.div`
 `;
 
 const Location = styled.div`
+  ${props => console.log('Location 的 props', props)}
   font-size: 28px;
-  color: #212121;
+  color: ${props => props.theme === 'dark' ? '#dadada' : '#212121'};
   margin-bottom: 20px;
 `;
 
@@ -103,7 +104,7 @@ function App() {
   return (
     <Container>
     <WeatherCard>
-    <Location>台北市</Location>
+    <Location theme="light">台北市</Location>
         <Description>多雲時晴</Description>
         <CurrentWeather>
           <Temperature>
