@@ -5,6 +5,7 @@ import { ReactComponent as RefreshIcon } from './images/refresh.svg';
 
 import styled from '@emotion/styled';
 import { ThemeProvider } from '@emotion/react';
+import {useState} from 'react';
 
 const theme = {
   light: {
@@ -123,8 +124,11 @@ const Refresh = styled.div`
 `;
 
 function App() {
+
+  const [currentTheme, setCurrentTheme] = useState('light');
+
   return (
-    <ThemeProvider theme={theme.dark}>
+    <ThemeProvider theme={theme[currentTheme]}>
       <Container>
       <WeatherCard>
       <Location>台北市</Location>
