@@ -139,6 +139,7 @@ function App() {
     windSpeed: 1.1,
     temperature: 22.9,
     rainPossibility: 48.3,
+    isLoading: true,
     observationTimme: '2020-12-12 22:10:00',
   });
 
@@ -148,6 +149,11 @@ function App() {
   }, []);
 
   const fetchCurrentWeather = () => {
+    setCurrentWeather((prevState) => ({
+      ...prevState,
+      isLoading: true,
+    }));
+
     fetch(
       WEATHER_API + `?Authorization=${AUTHORIZATION_KEY}&locationName=${LOCATION_NAME}`
     )
@@ -174,6 +180,7 @@ function App() {
           windSpeed: weatherElements.WDSD,
           description: '多雲時晴',
           rainPossibility: 60,
+          isLoading: false,
         });
       });
   };
@@ -181,7 +188,7 @@ function App() {
   return (
     <ThemeProvider theme={theme[currentTheme]}>
       <Container>
-      {console.log('測試: render')}
+      {console.log('測試: render. isLoading: ', currentWeather.isLoading)}
       <WeatherCard>
       <Location>{currentWeather.locationName}</Location>
           <Description>{currentWeather.description}</Description>
