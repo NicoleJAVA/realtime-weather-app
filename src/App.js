@@ -5,7 +5,7 @@ import { ReactComponent as RefreshIcon } from './images/refresh.svg';
 
 import styled from '@emotion/styled';
 import { ThemeProvider } from '@emotion/react';
-import {useState} from 'react';
+import {useEffect, useState} from 'react';
 import dayjs from 'dayjs';
 
 const AUTHORIZATION_KEY = 'CWB-5A61F264-6D25-41E4-98C4-7692CA87AF4B';
@@ -129,6 +129,7 @@ const Refresh = styled.div`
 `;
 
 function App() {
+  console.log('測試: invoke function component');
 
   const [currentTheme, setCurrentTheme] = useState('light');
 
@@ -139,6 +140,10 @@ function App() {
     temperature: 22.9,
     rainPossibility: 48.3,
     observationTimme: '2020-12-12 22:10:00',
+  });
+
+  useEffect(() => {
+    console.log('測試: 執行 useEffect');
   });
 
   const handleClick = () => {
@@ -175,6 +180,7 @@ function App() {
   return (
     <ThemeProvider theme={theme[currentTheme]}>
       <Container>
+      {console.log('測試: render')}
       <WeatherCard>
       <Location>{currentWeather.locationName}</Location>
           <Description>{currentWeather.description}</Description>
