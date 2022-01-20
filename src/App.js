@@ -2,6 +2,7 @@ import { ReactComponent as AirFlowIcon } from './images/airFlow.svg';
 import { ReactComponent as DayCloudyIcon } from './images/day-cloudy.svg';
 import { ReactComponent as RainIcon } from './images/rain.svg';
 import { ReactComponent as RefreshIcon } from './images/refresh.svg';
+import { ReactComponent as LoadingIcon } from './images/loading.svg';
 
 import styled from '@emotion/styled';
 import { ThemeProvider } from '@emotion/react';
@@ -125,6 +126,17 @@ const Refresh = styled.div`
     width: 15px;
     height: 15px;
     cursor: pointer;
+    animation: loadingRotate infinite 1.5s linear;
+    animation-duration: ${({isLoading}) => (isLoading ? '1.5s' : '0s')};
+  }
+
+  @keyframes loadingRotate {
+    from {
+      transform: rotate(360deg);
+    }
+    to {
+      transform: rotate(0deg);
+    }
   }
 `;
 
@@ -204,13 +216,13 @@ function App() {
           <Rain>
             <RainIcon /> {currentWeather.rainPossibility}%
           </Rain>
-          <Refresh onClick={fetchCurrentWeather}>
+          <Refresh onClick={fetchCurrentWeather} isLoading={currentWeather.isLoading}>
             最後觀測時間：
             {new Intl.DateTimeFormat('zh-TW', {
               hour: 'numeric',
               minute: 'numeric',
             }).format(dayjs())}{''}
-            <RefreshIcon />
+            {currentWeather.isLoading ? <LoadingIcon/> : <RefreshIcon />}
           </Refresh>
       </WeatherCard>
       </Container>
