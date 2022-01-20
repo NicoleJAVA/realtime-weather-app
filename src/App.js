@@ -145,7 +145,7 @@ function App() {
 
   const [currentTheme, setCurrentTheme] = useState('light');
 
-  const [currentWeather, setCurrentWeather] = useState({
+  const [weatherElement, setWeatherElement] = useState({
     locationName: '臺北市',
     description: '多雲時晴',
     windSpeed: 1.1,
@@ -161,7 +161,7 @@ function App() {
   }, []);
 
   const fetchCurrentWeather = () => {
-    setCurrentWeather((prevState) => ({
+    setWeatherElement((prevState) => ({
       ...prevState,
       isLoading: true,
     }));
@@ -185,7 +185,7 @@ function App() {
           }, {}
         );
 
-        setCurrentWeather({
+        setWeatherElement({
           observationTime: locationData.time.obsTime,
           locationName: locationData.locationName,
           temperature: weatherElements.TEMP,
@@ -205,7 +205,7 @@ function App() {
     temperature,
     rainPossibility,
     isLoading,
-  } = currentWeather;
+  } = weatherElement;
 
   return (
     <ThemeProvider theme={theme[currentTheme]}>
@@ -232,7 +232,7 @@ function App() {
               hour: 'numeric',
               minute: 'numeric',
             }).format(dayjs())}{''}
-            {currentWeather.isLoading ? <LoadingIcon/> : <RefreshIcon />}
+            {isLoading ? <LoadingIcon/> : <RefreshIcon />}
           </Refresh>
       </WeatherCard>
       </Container>
