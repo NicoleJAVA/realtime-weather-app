@@ -144,7 +144,8 @@ function App() {
 
   useEffect(() => {
     console.log('測試: 執行 useEffect');
-  });
+    fetchCurrentWeather();
+  }, []);
 
   const fetchCurrentWeather = () => {
     fetch(
