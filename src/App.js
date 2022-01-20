@@ -162,15 +162,29 @@ function App() {
 
   useEffect(() => {
     console.log('測試: 執行 useEffect');
-    refresh();
+    const fetchData = async () => {
+      setWeatherElement(prevState => ({
+        ...prevState,
+        isLoading:true,
+      }));
+
+      const [currentWeather, weatherForecast] = await Promise.all([
+        fetchCurrentWeather(),
+        fetchWeatherForecast(),
+      ]);
+
+      setWeatherElement({
+        ...currentWeather,
+        ...weatherForecast,
+        isLoading: false,
+      });
+    };
+
+    fetchData();
   }, []);
 
   const fetchCurrentWeather = () => {
-      ...prevState,
-      isLoading: true,
-    }));
-
-    fetch(
+    return fetch(
       WEATHER_API + `?Authorization=${AUTHORIZATION_KEY}&locationName=${LOCATION_NAME}`
     )
       .then(response => response.json())
