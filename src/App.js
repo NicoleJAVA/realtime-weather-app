@@ -6,7 +6,7 @@ import { ReactComponent as LoadingIcon } from './images/loading.svg';
 
 import styled from '@emotion/styled';
 import { ThemeProvider } from '@emotion/react';
-import {useEffect, useState} from 'react';
+import {useCallback, useEffect, useState} from 'react';
 import dayjs from 'dayjs';
 
 const AUTHORIZATION_KEY = 'CWB-5A61F264-6D25-41E4-98C4-7692CA87AF4B';
@@ -160,28 +160,28 @@ function App() {
     comfortability: '',
   });
 
+  const fetchData = useCallback(async () => {
+    setWeatherElement(prevState => ({
+      ...prevState,
+      isLoading:true,
+    }));
+
+    const [currentWeather, weatherForecast] = await Promise.all([
+      fetchCurrentWeather(),
+      fetchWeatherForecast(),
+    ]);
+
+    setWeatherElement({
+      ...currentWeather,
+      ...weatherForecast,
+      isLoading: false,
+    });
+  }, []);
+
   useEffect(() => {
     console.log('測試: 執行 useEffect');
-    const fetchData = async () => {
-      setWeatherElement(prevState => ({
-        ...prevState,
-        isLoading:true,
-      }));
-
-      const [currentWeather, weatherForecast] = await Promise.all([
-        fetchCurrentWeather(),
-        fetchWeatherForecast(),
-      ]);
-
-      setWeatherElement({
-        ...currentWeather,
-        ...weatherForecast,
-        isLoading: false,
-      });
-    };
-
     fetchData();
-  }, []);
+  }, [fetchData]);
 
   const fetchCurrentWeather = () => {
     return fetch(
@@ -273,7 +273,7 @@ function App() {
           <Rain>
             <RainIcon /> {rainPossibility}%
           </Rain>
-          <Refresh onClick={refresh} isLoading={isLoading}>
+          <Refresh onClick={fetchData} isLoading={isLoading}>
             最後觀測時間：
             {new Intl.DateTimeFormat('zh-TW', {
               hour: 'numeric',
