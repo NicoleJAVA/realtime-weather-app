@@ -197,26 +197,36 @@ function App() {
       });
   };
 
+  const {
+    observationTime,
+    locationName,
+    description,
+    windSpeed,
+    temperature,
+    rainPossibility,
+    isLoading,
+  } = currentWeather;
+
   return (
     <ThemeProvider theme={theme[currentTheme]}>
       <Container>
-      {console.log('測試: render. isLoading: ', currentWeather.isLoading)}
+      {console.log('測試: render. isLoading: ', isLoading)}
       <WeatherCard>
-      <Location>{currentWeather.locationName}</Location>
-          <Description>{currentWeather.description}</Description>
+      <Location>{locationName}</Location>
+          <Description>{description}</Description>
           <CurrentWeather>
             <Temperature>
-              {Math.round(currentWeather.temperature)} <Celsius>°C</Celsius>
+              {Math.round(temperature)} <Celsius>°C</Celsius>
             </Temperature>
             <DayCloudy />
           </CurrentWeather>
           <AirFlow>
-            <AirFlowIcon /> {currentWeather.windSpeed} m/h
+            <AirFlowIcon /> {windSpeed} m/h
           </AirFlow>
           <Rain>
-            <RainIcon /> {currentWeather.rainPossibility}%
+            <RainIcon /> {rainPossibility}%
           </Rain>
-          <Refresh onClick={fetchCurrentWeather} isLoading={currentWeather.isLoading}>
+          <Refresh onClick={fetchCurrentWeather} isLoading={isLoading}>
             最後觀測時間：
             {new Intl.DateTimeFormat('zh-TW', {
               hour: 'numeric',
