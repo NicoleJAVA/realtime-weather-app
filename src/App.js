@@ -146,7 +146,7 @@ function App() {
     console.log('測試: 執行 useEffect');
   });
 
-  const handleClick = () => {
+  const fetchCurrentWeather = () => {
     fetch(
       WEATHER_API + `?Authorization=${AUTHORIZATION_KEY}&locationName=${LOCATION_NAME}`
     )
@@ -196,7 +196,7 @@ function App() {
           <Rain>
             <RainIcon /> {currentWeather.rainPossibility}%
           </Rain>
-          <Refresh onClick={handleClick}>
+          <Refresh onClick={fetchCurrentWeather}>
             最後觀測時間：
             {new Intl.DateTimeFormat('zh-TW', {
               hour: 'numeric',
