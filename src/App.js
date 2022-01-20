@@ -166,7 +166,6 @@ function App() {
   }, []);
 
   const fetchCurrentWeather = () => {
-    setWeatherElement((prevState) => ({
       ...prevState,
       isLoading: true,
     }));
@@ -190,19 +189,17 @@ function App() {
           }, {}
         );
 
-        setWeatherElement(prevState => ({
-          ...prevState,
+        return {
           observationTime: locationData.time.obsTime,
           locationName: locationData.locationName,
           temperature: weatherElements.TEMP,
           windSpeed: weatherElements.WDSD,
-          isLoading: false,
-        }));
+        };
       });
   };
 
   const fetchWeatherForecast = () => {
-    fetch(FORECAST_API)
+    return fetch(FORECAST_API)
       .then(response => response.json())
       .then(data => {
         const locationData = data.records.location[0];
@@ -217,13 +214,12 @@ function App() {
           {}
         );
 
-        setWeatherElement((prevState) => ({
-          ...prevState,
+        return {
           description: weatherElements.Wx.parameterName,
           weatherCode: weatherElements.Wx.parameterValue,
           rainPossibility: weatherElements.PoP.parameterName,
           comfortability: weatherElements.CI.parameterName,
-        }));
+        };
       });
   };
 
